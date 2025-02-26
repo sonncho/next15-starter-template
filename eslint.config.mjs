@@ -1,10 +1,11 @@
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import globals from 'globals';
+
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import prettierConfigRecommended from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
+import { configs as tseslintConfigs } from 'typescript-eslint';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,8 +18,13 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
-  ...tseslint.configs.recommended,
+  ...compat.extends(
+    'next/core-web-vitals',
+    'next/typescript',
+    'plugin:import/recommended',
+    'plugin:import/typescript'
+  ),
+  ...tseslintConfigs.recommended,
   prettierConfigRecommended,
   { ignores: ['**/node_modules/*', '**/out/*', '**/.next/*', 'src/app/globals.css'] },
   {
@@ -46,6 +52,37 @@ const eslintConfig = [
       'prettier/prettier': 'error',
       'no-unused-vars': 'off', //타입스크립트 사용시 interface의 변수명을 eslint가 잡지 않도록 함.
       '@typescript-eslint/no-unused-vars': 'warn', //대신 사용하지 않는 변수는 @typescript/eslint를 통해 잡아줌.
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin', // Node.js 내장 모듈
+            'external', // npm으로 설치한 패키지
+            'internal', // 프로젝트 내부 모듈 (경로 별칭 사용)
+            'parent', // 상위 디렉토리 모듈
+            'sibling', // 동일 디렉토리 모듈
+            'index', // 현재 디렉토리의 index 파일
+            'object', // object-imports
+            'type', // 타입 import
+          ],
+          pathGroups: [
+            // React 관련 패키지를 최상단으로
+            { pattern: 'react', group: 'builtin', position: 'before' },
+            { pattern: 'next/**', group: 'builtin', position: 'before' },
+            // 별칭 경로 처리 (Next.js의 경우 주로 ~ 또는 @ 사용)
+            { pattern: '~/**', group: 'internal' },
+            // 스타일 관련 파일을 마지막으로
+            { pattern: '*.css', group: 'index', position: 'after' },
+            { pattern: '*.scss', group: 'index', position: 'after' },
+          ],
+          pathGroupsExcludedImportTypes: ['react', 'next'],
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+        },
+      ],
     },
   },
 ];
