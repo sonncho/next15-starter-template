@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "commit": "git-cz",
     "dev": "next dev --turbopack",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
@@ -25,6 +26,11 @@
       "pnpm package:sort"
     ]
   },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
     "class-variance-authority": "^0.7.1",
@@ -39,6 +45,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
+    "@commitlint/cz-commitlint": "^19.6.1",
     "@commitlint/format": "^19.5.0",
     "@commitlint/types": "^19.5.0",
     "@eslint/eslintrc": "^3",
@@ -46,12 +53,14 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "commitizen": "^4.3.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
+    "inquirer": "9",
     "lint-staged": "^15.4.3",
     "postcss": "^8",
     "prettier": "^3.5.2",
