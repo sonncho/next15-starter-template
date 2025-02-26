@@ -1,0 +1,22 @@
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔍 커밋 메시지 검사 시작"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# 커밋 메시지 내용 표시
+echo "📝 커밋 메시지:"
+cat "$1"
+echo ""
+
+# commitlint 실행 (pnpm 사용)
+npx --no -- commitlint --edit "$1"
+RESULT=$?
+
+if [ $RESULT -eq 0 ]; then
+  echo "✅ 커밋 메시지가 규칙에 맞습니다!"
+else
+  echo "❌ 커밋 메시지가 규칙에 맞지 않습니다."
+  echo "💡 형식: <type>(<scope>): <subject>"
+  echo "💡 예시: feat(ui): 로그인 버튼 추가"
+fi
+
+exit $RESULT

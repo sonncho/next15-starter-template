@@ -1,0 +1,20 @@
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🚀 코드 품질 검사 시작"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# 스테이징된 파일 수 표시
+FILES=$(git diff --name-only --cached | wc -l)
+echo "📦 스테이징된 파일: $FILES개"
+
+# lint-staged 실행 (pnpm 사용)
+npx lint-staged
+RESULT=$?
+
+if [ $RESULT -eq 0 ]; then
+  echo "✅ 코드 검사 성공!"
+else
+  echo "❌ 코드 검사 실패"
+  echo "💡 문제를 수정한 후 다시 시도하세요"
+fi
+
+exit $RESULT

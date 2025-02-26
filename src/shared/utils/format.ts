@@ -29,7 +29,9 @@ export function formatCompactNumber(number: number, decimals = 1): string {
   const formatted = scaled.toFixed(decimals);
 
   // 소수점이 .0으로 끝나면 정수로 표시
-  const final = formatted.endsWith(`.${Array(decimals + 1).join('0')}`) ? formatted.split('.')[0] : formatted;
+  const final = formatted.endsWith(`.${Array(decimals + 1).join('0')}`)
+    ? formatted.split('.')[0]
+    : formatted;
 
   return sign + final + suffix;
 }

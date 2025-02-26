@@ -13,15 +13,34 @@ const compat = new FlatCompat({
   // import.meta.dirname is available after Node.js v20.11.0
   baseDirectory: __dirname,
   recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
 });
 
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   ...tseslint.configs.recommended,
   prettierConfigRecommended,
-  // Add more flat configs here
-  { ignores: ['**/node_modules/*', '**/out/*', '**/.next/*'] },
-  { languageOptions: { globals: globals.browser } },
+  { ignores: ['**/node_modules/*', '**/out/*', '**/.next/*', 'src/app/globals.css'] },
+  {
+    languageOptions: {
+      // 다양한 환경의 전역 변수를 허용
+      globals: {
+        ...globals.browser, // 브라우저 환경의 전역 변수(window, document 등)
+        ...globals.jest, // Jest 테스트 환경의 전역 변수(describe, Buffer등)
+        ...globals.node, // Node.js 환경의 전역 변수(process, Buffer 등)
+      },
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true, // JSX 구문 분석을 활성화합니다.
+        },
+      },
+    },
+    settings: {
+      react: {
+        version: 'detect', // React 버전을 자동으로 감지
+      },
+    },
+  },
   {
     rules: {
       'prettier/prettier': 'error',
