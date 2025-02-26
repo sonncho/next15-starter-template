@@ -1,22 +1,39 @@
+COMMIT_MSG_FILE=$1
+RESULT=0
+
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "🔍 커밋 메시지 검사 시작"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# 커밋 메시지 내용 표시
+# 커밋 메시지 내용 표시 (색상 강조)
+echo ""
 echo "📝 커밋 메시지:"
-cat "$1"
+echo "\033[1;34m$(cat "$COMMIT_MSG_FILE")\033[0m"
 echo ""
 
 # commitlint 실행 (pnpm 사용)
-npx --no -- commitlint --edit "$1"
+if command -v pnpm >/dev/null 2>&1; then
+  pnpm exec commitlint --edit "$COMMIT_MSG_FILE"
+else
+  npx --no -- commitlint --edit "$COMMIT_MSG_FILE"
+fi
+
 RESULT=$?
 
 if [ $RESULT -eq 0 ]; then
-  echo "✅ 커밋 메시지가 규칙에 맞습니다!"
+  echo "\033[1;32m✅ 커밋 메시지가 규칙에 맞습니다!\033[0m"
 else
-  echo "❌ 커밋 메시지가 규칙에 맞지 않습니다."
-  echo "💡 형식: <type>(<scope>): <subject>"
-  echo "💡 예시: feat(ui): 로그인 버튼 추가"
+  echo "\033[1;31m❌ 커밋 메시지가 규칙에 맞지 않습니다.\033[0m"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "💡 형식 예시: \033[1;33mfeat(ui): 로그인 버튼 추가\033[0m"
+  echo "🚨 사용 가능한 타입:"
+  echo "\033[1;36mfeat, fix, docs, style, refactor, perf, test, build, ci, chore, revert\033[0m"
+  echo ""
+  echo "🔑 사용 가능한 범위:"
+  echo "\033[1;36msetup, bug, ui, page, components, hooks, lib, docs, api, styles, config, deps, auth, db, middleware, layout, route, public, feature, store, test, ci, other\033[0m"
+  echo ""
+  echo "❗ 커밋 메시지를 수정하고 다시 시도해 주세요."
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 fi
 
 exit $RESULT

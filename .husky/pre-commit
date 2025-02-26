@@ -1,20 +1,29 @@
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🚀 코드 품질 검사 시작"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+# 터미널 컬러 설정
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
 
-# 스테이징된 파일 수 표시
-FILES=$(git diff --name-only --cached | wc -l)
-echo "📦 스테이징된 파일: $FILES개"
+# 구분선
+divider() {
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+}
 
-# lint-staged 실행 (pnpm 사용)
-npx lint-staged
+divider
+echo "🔍 ${YELLOW}Pre-commit 검사 시작${NC}"
+divider
+
+# lint-staged 실행 (변경된 파일만 검사)
+npx --no -- lint-staged
 RESULT=$?
 
+divider
+
 if [ $RESULT -eq 0 ]; then
-  echo "✅ 코드 검사 성공!"
+  echo "${GREEN}✅ 모든 검사 통과! 커밋을 진행합니다.${NC}"
 else
-  echo "❌ 코드 검사 실패"
-  echo "💡 문제를 수정한 후 다시 시도하세요"
+  echo "${RED}❌ 오류 발생! 커밋이 중단되었습니다.${NC}"
+  echo "🚨 코드를 수정한 후 다시 커밋해주세요."
 fi
 
 exit $RESULT
