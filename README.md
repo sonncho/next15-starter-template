@@ -156,12 +156,12 @@ npx shadcn-ui@latest add [component-name]
 
 ### ESLint
 
-`.eslintrc.json` 파일을 수정하여 린팅 규칙을 커스터마이징할 수 있습니다.
+`eslint.config.mjs` 파일을 수정하여 린팅 규칙을 커스터마이징할 수 있습니다.
 
 ### Prettier
 
-`.prettierrc` 파일을 수정하여 코드 포맷팅 스타일을 커스터마이징할 수 있습니다.
+`.prettier.config.mjs` 파일을 수정하여 코드 포맷팅 스타일을 커스터마이징할 수 있습니다.
 
-## 라이선스
+<!-- ## 라이선스
 
-이 프로젝트는 MIT 라이선스에 따라 라이선스가 부여됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+이 프로젝트는 MIT 라이선스에 따라 라이선스가 부여됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요. -->
