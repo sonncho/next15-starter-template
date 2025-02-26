@@ -28,7 +28,7 @@
 
 ```bash
 # 저장소 클론
-git clone https://github.com/yourusername/next15-starter-template.git my-project
+git clone https://github.com/sonncho/next15-starter-template.git my-project
 cd my-project
 
 # 의존성 설치
@@ -160,7 +160,7 @@ npx shadcn-ui@latest add [component-name]
 
 ### Prettier
 
-`.prettier.config.mjs` 파일을 수정하여 코드 포맷팅 스타일을 커스터마이징할 수 있습니다.
+`prettier.config.mjs` 파일을 수정하여 코드 포맷팅 스타일을 커스터마이징할 수 있습니다.
 
 <!-- ## 라이선스
 
